@@ -22,16 +22,28 @@
 
 package com.tr8n.j2ee.tags;
 
-import java.util.Map;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
 
-public class TrlTag extends TrTag {
+public class PoweredByTr8nTag extends TagSupport {
 
-	private static final long serialVersionUID = 3767931504996116594L;
+	private static final long serialVersionUID = 1L;
+	private static final String SITE = "https://tr8nhub.com";
 
-	protected Map<String, Object> getOptionsMap() {
-		Map<String, Object> options = super.getOptionsMap();
-		options.put("skip_decorations", true);
-		return options; 
-	}	
-	
+	public int doStartTag() throws JspException {
+        try {
+            JspWriter out = pageContext.getOut();
+            out.write("<div>");
+    	    out.write("<a href='" + SITE + "' style='font-size:14px;color:#ccc'>");
+    	    out.write("Powered by Tr8n");
+    	    out.write("<br>");
+    	    out.write("<img src='" + SITE + "/assets/tr8n/tr8n_logo.png' style='padding:10px;width:80px;'>");
+    	    out.write("</a>");
+    	    out.write("</div>");
+        } catch(Exception e) {   
+            throw new JspException(e.getMessage());
+        }
+        return EVAL_PAGE;
+    }
 }

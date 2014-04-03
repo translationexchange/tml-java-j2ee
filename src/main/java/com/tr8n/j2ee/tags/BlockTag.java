@@ -40,48 +40,12 @@ import com.tr8n.core.Session;
 import com.tr8n.core.Tr8n;
 import com.tr8n.core.Utils;
 
-public class TrTag extends BodyTagSupport implements DynamicAttributes {
+public class BlockTag extends BodyTagSupport implements DynamicAttributes {
 	private static final long serialVersionUID = 1L;
-
-	private String label;
-	
-	private String description;
-
-	private String tokens;
 
 	private String options;
 	
-	private Map<String, Object> tokensMap;
-	
 	private Map<String, Object> optionsMap;
-	
-	public String getLabel() {
-		if (label != null) 
-			return label;
-		if (getBodyContent() != null)
-			return getBodyContent().getString();
-		return null;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getTokens() {
-		return tokens;
-	}
-
-	public void setTokens(String tokens) {
-		this.tokens = tokens;
-	}
 
 	public String getOptions() {
 		return options;
@@ -121,12 +85,6 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
 	}
 	
 	private void parseAttributes() {
-		if (getTokens() != null) {
-			tokensMap = parseAttributeData(getTokens());
-		} else {
-			tokensMap = new HashMap<String, Object>();
-		}
-		
 		if (getOptions() != null) {
 			optionsMap = parseAttributeData(getOptions());
 		} else {
@@ -145,20 +103,10 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
             if (key.startsWith("option.")) { 
             	key = key.replaceAll(Pattern.quote("option."), "");
             	parseAttribute(optionsMap, key, object);
-            } else if (key.startsWith("token.")) {
-            	key = key.replaceAll(Pattern.quote("token."), "");
-            	parseAttribute(tokensMap, key, object);
             } else {
-            	parseAttribute(tokensMap, key, object);
+            	parseAttribute(optionsMap, key, object);
             }
         }
-	}
-	
-	protected Map<String, Object> getTokensMap() {
-		if (tokensMap == null) 
-			parseAttributes();
-		
-		return tokensMap; 
 	}
 	
 	protected Map<String, Object> getOptionsMap() {
@@ -168,34 +116,31 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
 		return optionsMap; 
 	}	
 	
-	
 	private void reset() {
-		label = null;
-		description = null;
-		tokens = null;
 		options = null;
-	    tokensMap = null;
 	    optionsMap = null;
 	}
 
 	public int doStartTag() throws JspException {
+        HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+	    Session tr8nSession = (Session) request.getAttribute("tr8n");
+	    if (tr8nSession != null) {
+	    	tr8nSession.beginBlockWithOptions(getOptionsMap());
+	    }
 		return EVAL_BODY_BUFFERED;
     }
 
 	public int doEndTag() throws JspException {
         try {
-//        	PageContext pageContext = (PageContext) getJspContext();  
-//          HttpServletResponse response = (HttpServletResponse)pageContext.getResponse();
-            JspWriter out = pageContext.getOut();
             HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-
     	    Session tr8nSession = (Session) request.getAttribute("tr8n");
     	    if (tr8nSession != null) {
-    	    	Map<String, Object> options = getOptionsMap();
-    	    	options.put("session", tr8nSession);
-    	    	out.write(tr8nSession.translate(getLabel(), getDescription(), getTokensMap(), options));
-    	    } else {
-            	out.write(getLabel());
+    	    	tr8nSession.endBlock();
+    	    }
+
+    	    if (getBodyContent() != null) {
+    	    	JspWriter out = pageContext.getOut();
+    	    	out.write(getBodyContent().getString());
     	    }
         } catch(Exception e) {   
         	Tr8n.getLogger().logException(e);

@@ -22,16 +22,23 @@
 
 package com.tr8n.j2ee.tags;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.tr8n.core.Language;
 import com.tr8n.core.Session;
 
-public class LanguageSelectorTag extends TagSupport {
+public class FeaturedLanguagesTag extends TagSupport {
 
 	private static final long serialVersionUID = 1L;
+	private static final int LIST_LIMIT = 8;
 
 	public int doStartTag() throws JspException {
         try {
@@ -41,11 +48,20 @@ public class LanguageSelectorTag extends TagSupport {
     	    if (tr8nSession == null)
     	    	return EVAL_PAGE;
             
-            out.write("<a href='#' onClick='Tr8n.UI.LanguageSelector.show()'>");
-            out.write("<img src='" + tr8nSession.getCurrentLanguage().getFlagUrl() + "' style='align:middle'>");
-            out.write("&nbsp;");
-            out.write(tr8nSession.getCurrentLanguage().getEnglishName());
-            out.write("</a>");
+    	    List<String> links = new ArrayList<String>();
+    	    List<Language> languages = tr8nSession.getApplication().getFeaturedLanguages();
+
+    	    if (languages != null && languages.size() > 0) {
+    	    	for (int i=0; i<Math.min(LIST_LIMIT, languages.size()) ; i++) {
+    	    		Language language = languages.get(i);
+	    	    	links.add("<a href='#' onClick='Tr8n.UI.LanguageSelector.change(\"" + language.getLocale() + "\")'>" + language.getNativeName() + "</a>");
+	    	    }
+
+    	    	out.write(StringUtils.join(links.toArray(), "&nbsp; &middot; &nbsp;"));
+        	    if (languages.size() > LIST_LIMIT) {
+        	      out.write("&nbsp; &nbsp; <a href='#' onClick='Tr8n.UI.LanguageSelector.show()'>&raquo;</a>");
+        	    }
+    	    }
         } catch(Exception e) {   
             throw new JspException(e.getMessage());
         }
