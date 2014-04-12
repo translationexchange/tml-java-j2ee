@@ -30,10 +30,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.tr8n.core.Language;
 import com.tr8n.core.Session;
+import com.tr8n.core.Utils;
 
 public class FeaturedLanguagesTag extends TagSupport {
 
@@ -57,7 +56,7 @@ public class FeaturedLanguagesTag extends TagSupport {
 	    	    	links.add("<a href='#' onClick='Tr8n.UI.LanguageSelector.change(\"" + language.getLocale() + "\")'>" + language.getNativeName() + "</a>");
 	    	    }
 
-    	    	out.write(StringUtils.join(links.toArray(), "&nbsp; &middot; &nbsp;"));
+    	    	out.write(Utils.join(links, "&nbsp; &middot; &nbsp;"));
         	    if (languages.size() > LIST_LIMIT) {
         	      out.write("&nbsp; &nbsp; <a href='#' onClick='Tr8n.UI.LanguageSelector.show()'>&raquo;</a>");
         	    }
