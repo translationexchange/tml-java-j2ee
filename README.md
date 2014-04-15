@@ -2,8 +2,8 @@
   <img src="https://raw.github.com/tr8n/tr8n/master/doc/screenshots/tr8nlogo.png">
 </p>
 
-Tr8n Client SDK for J2EE.
-===
+Tr8n Client SDK for J2EE
+==================
 
 [![Project status](http://stillmaintained.com/tr8n/tr8n_android_clientsdk.png)](http://stillmaintained.com/tr8n/tr8n_android_clientsdk.png)
 
