@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>tr8n</groupId>
-  <artifactId>com.tr8n.j2ee</artifactId>
+  <groupId>com.tr8nhub</groupId>
+  <artifactId>j2ee-clientsdk</artifactId>
   <version>0.1.0</version>
   
-  <name>tr8n_j2ee_clientsdk</name>
+  <name>tr8n-j2ee-clientsdk</name>
   <url>https://github.com/tr8n/tr8n_j2ee_clientsdk</url>
   <inceptionYear>2014</inceptionYear>
 
@@ -43,14 +43,9 @@
 	      <scope>test</scope>
 	  </dependency>
 	  <dependency>
-	      <groupId>tr8n</groupId>
-	      <artifactId>tr8n_core</artifactId>
+	      <groupId>com.tr8nhub</groupId>
+	      <artifactId>core</artifactId>
 	      <version>0.1.0</version>
-	  </dependency>
-	  <dependency>
-	      <groupId>net.spy</groupId>
-	      <artifactId>spymemcached</artifactId>
-	      <version>2.10.6</version>
 	  </dependency>
 	  <dependency>
 	      <groupId>org.apache.directory.studio</groupId>
