@@ -1,41 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
-	<display-name>"Tr8n Tags"</display-name>
+	<display-name>"Tml Tags"</display-name>
 	<tlib-version>2.2.3</tlib-version>
-	<short-name>tr8n</short-name>
-	<uri>/tr8n-tags</uri>
+	<short-name>tml</short-name>
+	<uri>/tml-tags</uri>
 
 	<tag>
 		<name>scripts</name>
-		<tag-class>com.tr8n.j2ee.tags.ScriptsTag</tag-class>
+		<tag-class>com.translationexchange.j2ee.tags.ScriptsTag</tag-class>
 		<body-content>empty</body-content>
 		<description><![CDATA[Generates JavaScript and CSS functions.]]></description>
 	</tag>
 	
 	<tag>
 		<name>language_selector</name>
-		<tag-class>com.tr8n.j2ee.tags.LanguageSelectorTag</tag-class>
+		<tag-class>com.translationexchange.j2ee.tags.LanguageSelectorTag</tag-class>
 		<body-content>empty</body-content>
 		<description><![CDATA[Generates language selector link and shows current language.]]></description>
 	</tag>
 
   <tag>
-    <name>featured_languages</name>
-    <tag-class>com.tr8n.j2ee.tags.FeaturedLanguagesTag</tag-class>
+    <name>powered_by</name>
+    <tag-class>com.translationexchange.j2ee.tags.PoweredByTag</tag-class>
     <body-content>empty</body-content>
-    <description><![CDATA[Displayes a list of featured languages (normally in the footer).]]></description>
-  </tag>
-
-  <tag>
-    <name>powered_by_tr8n</name>
-    <tag-class>com.tr8n.j2ee.tags.PoweredByTr8nTag</tag-class>
-    <body-content>empty</body-content>
-    <description><![CDATA[Displayes Tr8n logo and links back to Tr8n.]]></description>
+    <description><![CDATA[Displayes TrEx logo and links back to Translation Exchange.]]></description>
   </tag>
 
   <tag>
     <name>block</name>
-    <tag-class>com.tr8n.j2ee.tags.BlockTag</tag-class>
+    <tag-class>com.translationexchange.j2ee.tags.BlockTag</tag-class>
     <dynamic-attributes>true</dynamic-attributes>
     <body-content>JSP</body-content>
     <description><![CDATA[Allows to provide various options to body content]]></description>
@@ -48,7 +41,7 @@
     
   <tag>
 		<name>tr</name>
-		<tag-class>com.tr8n.j2ee.tags.TrTag</tag-class>
+		<tag-class>com.translationexchange.j2ee.tags.TrTag</tag-class>
 		<dynamic-attributes>true</dynamic-attributes>
 		<description><![CDATA[Translation tag]]></description>
 		<body-content>JSP</body-content>
@@ -76,7 +69,7 @@
 
  	<tag>
     <name>trl</name>
-    <tag-class>com.tr8n.j2ee.tags.TrlTag</tag-class>
+    <tag-class>com.translationexchange.j2ee.tags.TrlTag</tag-class>
     <body-content>JSP</body-content>
     <dynamic-attributes>true</dynamic-attributes>
     <description></description>
