@@ -1,13 +1,11 @@
 <p align="center">
-  <img src="https://raw.github.com/tr8n/tr8n/master/doc/screenshots/tr8nlogo.png">
+  <img src="https://avatars0.githubusercontent.com/u/1316274?v=3&s=200">
 </p>
 
-Tr8n Client SDK for J2EE
+Tml Client SDK for J2EE
 ==================
 
-[![Project status](http://stillmaintained.com/tr8n/tr8n_android_clientsdk.png)](http://stillmaintained.com/tr8n/tr8n_android_clientsdk.png)
-
-Tr8n Client SDK for J2EE provides extensions for building web based applications using servlets and JSP.
+Tml Client SDK for J2EE provides extensions for building web based applications using servlets and JSP.
 
 Installation
 ==================
@@ -18,9 +16,9 @@ Add the following dependency to your pom.xml:
 
 ```xml
 <dependency>
-  <groupId>com.tr8nhub</groupId>
-  <artifactId>j2ee-clientsdk</artifactId>
-  <version>0.1.0</version>
+  <groupId>com.translationexchange</groupId>
+  <artifactId>tml-j2ee</artifactId>
+  <version>0.2.1</version>
 </dependency>
 ```
 
@@ -28,31 +26,27 @@ Add the following dependency to your pom.xml:
 Sample Applications
 ==================
 
-The best way to get started with Tr8n is to see it in action. A number of sample applications are available for you to see how the SDK can be integrated and used:
+The best way to get started with Tml is to see it in action. A number of sample applications are available for you to see how the SDK can be integrated and used:
 
-* Welp web app: [tr8n_samples_welp_j2ee](https://github.com/tr8n/tr8n_samples_welp_j2ee)
+* Sample app: [tml-java-j2ee-samples-welp](https://github.com/translationexchange/tml-java-j2ee-samples-welp)
 
 
 Links
 ==================
 
-* Register on TranslationExchange.com: https://translationexchange.com
-
-* Read TranslationExchange's documentation: http://wiki.translationexchange.com
-
-* Visit TranslationExchange's blog: http://blog.translationexchange.com
+* Register on TranslationExchange.com: http://translationexchange.com
 
 * Follow TranslationExchange on Twitter: https://twitter.com/translationx
 
 * Connect with TranslationExchange on Facebook: https://www.facebook.com/translationexchange
 
-* If you have any questions or suggestions, contact us: info@translationexchange.com
+* If you have any questions or suggestions, contact us: support@translationexchange.com
 
 
 Copyright and license
 ==================
 
-Copyright (c) 2014 Michael Berkovich, TranslationExchange.com
+Copyright (c) 2015 Translation Exchange, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -72,3 +66,5 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
