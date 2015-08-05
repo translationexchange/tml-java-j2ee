@@ -31,15 +31,24 @@
 
 package com.translationexchange.j2ee.tags;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
+import com.translationexchange.core.Language;
 import com.translationexchange.core.Session;
 import com.translationexchange.j2ee.servlets.LocalizedServlet;
 
 public class TagSupport extends javax.servlet.jsp.tagext.TagSupport {
 
 	private static final long serialVersionUID = -2954461560095601814L;
+
+	private Map<String,Object> dynamicAttributes = new HashMap<String,Object>();  
 
 	protected Session getTmlSession() {
         HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
@@ -49,5 +58,78 @@ public class TagSupport extends javax.servlet.jsp.tagext.TagSupport {
 	protected void out(JspWriter writer, String str) throws Exception {
 		writer.write(str + "\n");	
 	}
+
+	protected void out(String str) throws Exception {
+		out(pageContext.getOut(), str);
+	}
+
+	protected List<String> getSupportedAttributeNames() {
+		return new ArrayList<String>();
+	}
+
+	public Map<String,Object> getDynamicAttributes() {
+		return dynamicAttributes;
+	}
 	
+	public void setDynamicAttribute(String uri, String localName, Object value)
+			throws JspException {
+		dynamicAttributes.put(localName, localName);		
+	}
+	
+	public Object getDynamicAttribute(String name) {
+		return dynamicAttributes.get(name);
+	}
+
+	public String getStringAttribute(String name) {
+		return getStringAttribute(name, null);
+	}
+
+	public String getStringAttribute(String name, String defaultValue) {
+		return getStringAttribute(getDynamicAttributes(), name, defaultValue);
+	}
+
+	public static String getStringAttribute(Map<String, Object> options, String name, String defaultValue) {
+		String value = (String) options.get(name);
+		if (value == null) return defaultValue;
+		return value;
+	}
+	
+	public int getIntAttribute(String name) {
+		return getIntAttribute(name, 0);
+	}
+	
+	public int getIntAttribute(String name, int defaultValue) {
+		return getIntAttribute(getDynamicAttributes(), name, defaultValue);
+	}
+	
+	public static int getIntAttribute(Map<String, Object> options, String name, int defaultValue) {
+		String value = (String) options.get(name);
+		if (value == null) return defaultValue;
+		return Integer.parseInt(value);
+	}
+	
+	public boolean getBooleanAttribute(String name) {
+		return getBooleanAttribute(getDynamicAttributes(), name, false);
+	}
+
+	public boolean getBooleanAttribute(String name, boolean defaultValue) {
+		return getBooleanAttribute(getDynamicAttributes(), name, defaultValue);
+	}
+	
+	public static boolean getBooleanAttribute(Map<String, Object> options, String name, boolean defaultValue) {
+		String value = (String) options.get(name);
+		if (value == null) return defaultValue;
+		return Boolean.parseBoolean(value);
+	}
+	
+	public static Object getObjectAttribute(Map<String, Object> options, String name, Object defaultValue) {
+		Object value = options.get(name);
+		if (value == null) return defaultValue;
+		return value;
+	}	
+	
+	protected Language getLanguageAttribute(Session session) {
+		String locale = getStringAttribute(getDynamicAttributes(), "locale", session.getCurrentLanguage().getLocale());
+		return session.getApplication().getLanguage(locale);
+	}
 }

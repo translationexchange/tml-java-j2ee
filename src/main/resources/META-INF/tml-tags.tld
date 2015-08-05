@@ -1,31 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
-	<display-name>"Tml Tags"</display-name>
-	<tlib-version>2.2.3</tlib-version>
-	<short-name>tml</short-name>
-	<uri>/tml-tags</uri>
+  <display-name>"Tml Tags"</display-name>
+  <tlib-version>2.2.3</tlib-version>
+  <short-name>tml</short-name>
+  <uri>/tml-tags</uri>
 
-	<tag>
-		<name>scripts</name>
-		<tag-class>com.translationexchange.j2ee.tags.ScriptsTag</tag-class>
-		<body-content>empty</body-content>
-		<description><![CDATA[Generates JavaScript and CSS functions.]]></description>
-	</tag>
-	
-	<tag>
-		<name>language_selector</name>
-		<tag-class>com.translationexchange.j2ee.tags.LanguageSelectorTag</tag-class>
-		<body-content>empty</body-content>
-		<description><![CDATA[Generates language selector link and shows current language.]]></description>
-	</tag>
-
+  <tag>
+    <name>scripts</name>
+    <tag-class>com.translationexchange.j2ee.tags.ScriptsTag</tag-class>
+    <body-content>empty</body-content>
+    <description><![CDATA[Generates JavaScript and CSS functions.]]></description>
+  </tag>
+  
+  <tag>
+    <name>language_selector</name>
+    <tag-class>com.translationexchange.j2ee.tags.LanguageSelectorTag</tag-class>
+    <body-content>empty</body-content>
+    <description><![CDATA[Generates language selector link and shows current language.]]></description>
+    <attribute>
+      <name>type</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>element</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>language</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>className</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>style</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>toggle</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>toggleLabel</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>toggleLabelCancel</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>poweredBy</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+    
   <tag>
     <name>powered_by</name>
     <tag-class>com.translationexchange.j2ee.tags.PoweredByTag</tag-class>
     <body-content>empty</body-content>
-    <description><![CDATA[Displayes TrEx logo and links back to Translation Exchange.]]></description>
+    <description><![CDATA[Displayes Tr8n logo and links back to Tr8n.]]></description>
   </tag>
-
+    
   <tag>
     <name>block</name>
     <tag-class>com.translationexchange.j2ee.tags.BlockTag</tag-class>
@@ -38,61 +83,61 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
   </tag>
-    
+  
   <tag>
-		<name>tr</name>
-		<tag-class>com.translationexchange.j2ee.tags.TrTag</tag-class>
-		<dynamic-attributes>true</dynamic-attributes>
-		<description><![CDATA[Translation tag]]></description>
-		<body-content>JSP</body-content>
-		<attribute>
-			<name>label</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>description</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>tokens</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>options</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
+    <name>tr</name>
+    <tag-class>com.translationexchange.j2ee.tags.TrTag</tag-class>
+    <dynamic-attributes>true</dynamic-attributes>
+    <description><![CDATA[Translation tag]]></description>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>label</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>description</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>tokens</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>options</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
   </tag>
 
- 	<tag>
+  <tag>
     <name>trl</name>
     <tag-class>com.translationexchange.j2ee.tags.TrlTag</tag-class>
     <body-content>JSP</body-content>
     <dynamic-attributes>true</dynamic-attributes>
     <description></description>
       <attribute>
-				<name>label</name>
-				<required>false</required>
-				<rtexprvalue>true</rtexprvalue>
-   	  </attribute>
-  		<attribute>
-       	<name>description</name>
-       	<required>false</required>
-       	<rtexprvalue>true</rtexprvalue>
-   	  </attribute>
-  		<attribute>
-       	<name>tokens</name>
-       	<required>false</required>
-       	<rtexprvalue>true</rtexprvalue>
-   	  </attribute>
-  		<attribute>
-       	<name>options</name>
-       	<required>false</required>
-       	<rtexprvalue>true</rtexprvalue>
-   	  </attribute>
-  </tag>	
-	
+        <name>label</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>description</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>tokens</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>options</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+  </tag>  
+  
 </taglib>

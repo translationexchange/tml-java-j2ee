@@ -27,93 +27,53 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
- * @author Michael Berkovich
- * 
- * Usage:
- * 
- * <tml:scripts/> 
- * 
  */
+
 package com.translationexchange.j2ee.tags;
 
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
-
-import com.translationexchange.core.Application;
-import com.translationexchange.core.Language;
 import com.translationexchange.core.Session;
 
-public class ScriptsTag extends TagSupport {
+public class ImageTag extends TagSupport {
+
 	private static final long serialVersionUID = 1L;
-	
-	private void writeCSS(Session session) throws Exception {
-		Application application = session.getApplication();
-		out("<style type='text/css'>");
-		out(application.getCss());
-		out("</style>");
-	}
-	
-	private void writeJS(Session session) throws Exception {
-		Application application = session.getApplication();
-		Language language = session.getCurrentLanguage();
-		String source = session.getCurrentSource();
 
-		out("<script>");
-		out("(function() {");
-		out("	if (window.tml_already_initialized) return;");
-		out("	window.tml_already_initialized = true;");
-		out("	var script = window.document.createElement('script');");
-		out("   script.setAttribute('id', 'tml-tools');");
-		out("   script.setAttribute('type', 'application/javascript');");
-		out("   script.setAttribute('src', '" + application.getTools("javascript") + "');");
-		out("   script.setAttribute('charset', 'UTF-8');");
-		out("   script.onload = function() {");
-		out("     Tml.Utils.insertCSS(window.document, '" + application.getTools("stylesheet") + "', false);");
-		out("     Tml.app_key = '" + application.getKey() + "';");
-		out("     Tml.host = '" + application.getTools("host") + "';");
-		out("     Tml.locale = '" + language.getLocale() + "';");
-		out("     Tml.current_source = '" + source + "';");
+	public static String getImageHtml(Session session, Map<String, Object> options) {
+		StringBuffer html = new StringBuffer();
 		
-		if (application.isFeatureEnabled("shortcuts")) {
-	        Iterator<Map.Entry<String, String>> entries = application.getShortcuts().entrySet().iterator();
-	        while (entries.hasNext()) { 
-                Map.Entry<String, String> entry = (Map.Entry<String, String>) entries.next();
-        		out("     shortcut.add('" + entry.getKey() + "', function() {");
-        		out("       " + entry.getValue());
-        		out("     });");
-	        }
-		}
+		html.append("<img ");
+        
+		// TODO: add support for locale based images
+		// logo_ru.png
+		// logo_es.png
+		// logo_rtl.png
+		
+		Iterator<Map.Entry<String, Object>> entries = options.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, Object> entry = entries.next();
+            String key = (String) entry.getKey();
+            String value = (String) entry.getValue();
+            html.append(key +"='" + value.replace("'", "\"") + "' ");
+        }
 
-		out("     if (typeof(tml_on_ready) === 'function') tml_on_ready(); ");
-		out("   };");
-		out("   window.document.getElementsByTagName('head')[0].appendChild(script);");
-		out("})();");
-		out("</script>");		
+		html.append("/>");
+
+        return html.toString();
 	}
 	
 	public int doStartTag() throws JspException {
         try {
-    	    Session session = getTmlSession();
-    	    
+            Session session = getTmlSession();
     	    if (session == null)
     	    	return EVAL_PAGE;
-    	    
-    	    writeCSS(session);
-    	    writeJS(session);
+
+            out(getImageHtml(session, getDynamicAttributes()));
         } catch(Exception e) {   
             throw new JspException(e.getMessage());
-        } finally {
         }
         return EVAL_PAGE;
     }
-	
 }
-
-
-
-
-
-

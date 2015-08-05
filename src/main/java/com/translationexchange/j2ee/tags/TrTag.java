@@ -72,6 +72,8 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
 	
 	private Map<String, Object> optionsMap;
 	
+	private Map<String,Object> dynamicAttributes = new HashMap<String,Object>();  
+	
 	public String getLabel() {
 		if (label != null) 
 			return label;
@@ -107,8 +109,6 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
 	public void setOptions(String options) {
 		this.options = options;
 	}
-
-	private Map<String,Object> dynamicAttributes = new HashMap<String,Object>();  
 
 	public void setDynamicAttribute(String uri,
             String localName,

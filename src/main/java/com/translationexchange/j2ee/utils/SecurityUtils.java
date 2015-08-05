@@ -76,6 +76,23 @@ public class SecurityUtils {
    }
 
    /**
+    * Encodes parameters
+    * 
+    * @param params
+    * @return
+    */
+	public static String encode(Map<String, Object> params) {
+		try {
+			String payload = Utils.buildJSON(params);
+	        payload = Base64.encodeBase64String(StringUtils.getBytesUtf8(payload));
+	        return payload;
+		} catch (Exception ex) {
+           Tml.getLogger().logException(ex);
+           return null;
+		}
+	}
+   
+   /**
     * 
     * @param payload
     * @return

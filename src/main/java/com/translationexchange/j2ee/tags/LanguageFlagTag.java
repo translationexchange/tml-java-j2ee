@@ -27,93 +27,50 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
- * @author Michael Berkovich
- * 
- * Usage:
- * 
- * <tml:scripts/> 
- * 
  */
+
 package com.translationexchange.j2ee.tags;
 
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 
-import com.translationexchange.core.Application;
 import com.translationexchange.core.Language;
 import com.translationexchange.core.Session;
 
-public class ScriptsTag extends TagSupport {
-	private static final long serialVersionUID = 1L;
-	
-	private void writeCSS(Session session) throws Exception {
-		Application application = session.getApplication();
-		out("<style type='text/css'>");
-		out(application.getCss());
-		out("</style>");
-	}
-	
-	private void writeJS(Session session) throws Exception {
-		Application application = session.getApplication();
-		Language language = session.getCurrentLanguage();
-		String source = session.getCurrentSource();
+public class LanguageFlagTag extends TagSupport {
 
-		out("<script>");
-		out("(function() {");
-		out("	if (window.tml_already_initialized) return;");
-		out("	window.tml_already_initialized = true;");
-		out("	var script = window.document.createElement('script');");
-		out("   script.setAttribute('id', 'tml-tools');");
-		out("   script.setAttribute('type', 'application/javascript');");
-		out("   script.setAttribute('src', '" + application.getTools("javascript") + "');");
-		out("   script.setAttribute('charset', 'UTF-8');");
-		out("   script.onload = function() {");
-		out("     Tml.Utils.insertCSS(window.document, '" + application.getTools("stylesheet") + "', false);");
-		out("     Tml.app_key = '" + application.getKey() + "';");
-		out("     Tml.host = '" + application.getTools("host") + "';");
-		out("     Tml.locale = '" + language.getLocale() + "';");
-		out("     Tml.current_source = '" + source + "';");
-		
-		if (application.isFeatureEnabled("shortcuts")) {
-	        Iterator<Map.Entry<String, String>> entries = application.getShortcuts().entrySet().iterator();
-	        while (entries.hasNext()) { 
-                Map.Entry<String, String> entry = (Map.Entry<String, String>) entries.next();
-        		out("     shortcut.add('" + entry.getKey() + "', function() {");
-        		out("       " + entry.getValue());
-        		out("     });");
-	        }
+	private static final long serialVersionUID = 1L;
+
+	public static String getLanguageFlagHtml(Language language, Session session, Map<String, Object> options) {
+		if (!session.getApplication().isFeatureEnabled("language_flags")) {
+			return "";
 		}
 
-		out("     if (typeof(tml_on_ready) === 'function') tml_on_ready(); ");
-		out("   };");
-		out("   window.document.getElementsByTagName('head')[0].appendChild(script);");
-		out("})();");
-		out("</script>");		
+		StringBuffer html = new StringBuffer();
+
+		Map<String, Object> imageOptions = new HashMap<String, Object>();
+		imageOptions.put("src", language.getFlagUrl());
+		imageOptions.put("style", getStringAttribute(options, "style", "vertical-align:middle;"));
+		imageOptions.put("title", language.getNativeName());
+		
+		html.append(ImageTag.getImageHtml(session, imageOptions));
+
+		return html.toString();
 	}
 	
 	public int doStartTag() throws JspException {
         try {
-    	    Session session = getTmlSession();
+            Session session = getTmlSession();
     	    
-    	    if (session == null)
+            if (session == null)
     	    	return EVAL_PAGE;
-    	    
-    	    writeCSS(session);
-    	    writeJS(session);
+
+    	    out(getLanguageFlagHtml(getLanguageAttribute(session), session, getDynamicAttributes()));
         } catch(Exception e) {   
             throw new JspException(e.getMessage());
-        } finally {
         }
         return EVAL_PAGE;
     }
-	
 }
-
-
-
-
-
-
