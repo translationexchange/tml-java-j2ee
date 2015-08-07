@@ -29,38 +29,29 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.translationexchange.j2ee.servlets;
+package com.translationexchange.j2ee.tags;
 
-import java.io.IOException;
+import javax.servlet.jsp.JspException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.translationexchange.core.Session;
 
-import com.translationexchange.core.Tml;
+public class LanguageDirAttributeTag extends TagSupport {
 
-public class CacheInvalidationServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 4471206416647768921L;
+	public int doStartTag() throws JspException {
+        try {
+            Session session = getTmlSession();
+    	    if (session == null)
+    	    	return EVAL_PAGE;
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-    	Tml.getLogger().debug("Cache invalidation requests: " + request.getRequestURL().toString());
-		
-		String accessToken = request.getParameter("access_token");
-		
-		if (accessToken != null && accessToken.equals(Tml.getConfig().getApplication().get("token"))) {
-			Tml.getCache().resetVersion();
-		}
-
-		if (request.getParameter("silent") != null) {
-			response.getWriter().write("Ok");
-		} else {
-			response.sendRedirect("/");
-		}
-	}	
-	
+    		StringBuffer html = new StringBuffer();
+    		html.append("dir=\"" + session.getCurrentLanguage().getDirection() + "\"");
+    		
+            out(html.toString());
+        } catch(Exception e) {   
+            throw new JspException(e.getMessage());
+        }
+        return EVAL_PAGE;
+    }
 }

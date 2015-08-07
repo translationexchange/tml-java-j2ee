@@ -35,12 +35,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
+
 import com.translationexchange.core.Session;
 
 public class ImageTag extends TagSupport {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	public static String getImageHtml(Session session, Map<String, Object> options) {
 		StringBuffer html = new StringBuffer();
 		

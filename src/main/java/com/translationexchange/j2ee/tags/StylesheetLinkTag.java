@@ -29,38 +29,56 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.translationexchange.j2ee.servlets;
+package com.translationexchange.j2ee.tags;
 
-import java.io.IOException;
+import javax.servlet.jsp.JspException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.translationexchange.core.Session;
 
-import com.translationexchange.core.Tml;
+public class StylesheetLinkTag extends TagSupport {
 
-public class CacheInvalidationServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private String rtl;
+	private String ltr;
 
-	private static final long serialVersionUID = 4471206416647768921L;
+	public String getRtl() {
+		return rtl;
+	}
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-    	Tml.getLogger().debug("Cache invalidation requests: " + request.getRequestURL().toString());
-		
-		String accessToken = request.getParameter("access_token");
-		
-		if (accessToken != null && accessToken.equals(Tml.getConfig().getApplication().get("token"))) {
-			Tml.getCache().resetVersion();
-		}
+	public void setRtl(String rtl) {
+		this.rtl = rtl;
+	}
 
-		if (request.getParameter("silent") != null) {
-			response.getWriter().write("Ok");
-		} else {
-			response.sendRedirect("/");
-		}
-	}	
-	
+	public String getLtr() {
+		return ltr;
+	}
+
+	public void setLtr(String ltr) {
+		this.ltr = ltr;
+	}
+
+	public int doStartTag() throws JspException {
+        try {
+            Session session = getTmlSession();
+    	    if (session == null)
+    	    	return EVAL_PAGE;
+
+    		StringBuffer html = new StringBuffer();
+    		
+    		html.append("<link rel=\"stylesheet\" type=\"text/css\"");    		
+    		
+    		if (session.getCurrentLanguage().isRightToLeft()) {
+    			html.append(" href=\"" + getRtl() + "\"");
+    		} else {
+    			html.append(" href=\"" + getLtr() + "\"");
+    		}
+    	    
+    		html.append(" />");
+    		
+            out(html.toString());
+        } catch(Exception e) {   
+            throw new JspException(e.getMessage());
+        }
+        return EVAL_PAGE;
+    }
 }

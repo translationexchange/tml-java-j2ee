@@ -29,38 +29,59 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.translationexchange.j2ee.servlets;
 
-import java.io.IOException;
+package com.translationexchange.j2ee.tags;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
 
+import com.translationexchange.core.Session;
 import com.translationexchange.core.Tml;
+import com.translationexchange.core.Utils;
 
-public class CacheInvalidationServlet extends HttpServlet {
+public class SourceTag extends BodyTagSupport {
+	private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 4471206416647768921L;
+	private String name;
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-    	Tml.getLogger().debug("Cache invalidation requests: " + request.getRequestURL().toString());
-		
-		String accessToken = request.getParameter("access_token");
-		
-		if (accessToken != null && accessToken.equals(Tml.getConfig().getApplication().get("token"))) {
-			Tml.getCache().resetVersion();
-		}
+	public String getName() {
+		return name;
+	}
 
-		if (request.getParameter("silent") != null) {
-			response.getWriter().write("Ok");
-		} else {
-			response.sendRedirect("/");
-		}
-	}	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	private void reset() {
+		name = null;
+	}
+
+	public int doStartTag() throws JspException {
+        Session tmlSession = getTmlSession();
+	    if (tmlSession != null) {
+	    	tmlSession.beginBlockWithOptions(Utils.buildMap("source", getName()));
+	    }
+		return EVAL_BODY_BUFFERED;
+    }
+
+	public int doEndTag() throws JspException {
+        try {
+        	Session tmlSession = getTmlSession();
+        	if (tmlSession != null) {
+    	    	tmlSession.endBlock();
+    	    }
+
+    	    if (getBodyContent() != null) {
+    	    	JspWriter out = pageContext.getOut();
+    	    	out.write(getBodyContent().getString());
+    	    }
+        } catch(Exception e) {   
+        	Tml.getLogger().logException(e);
+            throw new JspException(e.getMessage());
+        } finally {
+        	reset();
+        }
+        return EVAL_PAGE;		
+	}
 	
 }

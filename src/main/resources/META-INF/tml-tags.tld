@@ -6,6 +6,38 @@
   <uri>/tml-tags</uri>
 
   <tag>
+    <name>image</name>
+    <tag-class>com.translationexchange.j2ee.tags.ImageTag</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+    <description><![CDATA[Allows to insert images for various langauges]]></description>
+  </tag>
+
+  <tag>
+    <name>stylesheet_link</name>
+    <tag-class>com.translationexchange.j2ee.tags.StylesheetLinkTag</tag-class>
+    <body-content>empty</body-content>
+    <description><![CDATA[Allows to insert stylesheets based on language direction]]></description>
+    <attribute>
+      <name>ltr</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>rtl</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  
+  <tag>
+    <name>language_dir_attribute</name>
+    <tag-class>com.translationexchange.j2ee.tags.LanguageDirAttributeTag</tag-class>
+    <body-content>empty</body-content>
+    <description><![CDATA[Allows to insert language direction attribute]]></description>
+  </tag>
+    
+  <tag>
     <name>scripts</name>
     <tag-class>com.translationexchange.j2ee.tags.ScriptsTag</tag-class>
     <body-content>empty</body-content>
@@ -83,6 +115,18 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
   </tag>
+  
+  <tag>
+    <name>source</name>
+    <tag-class>com.translationexchange.j2ee.tags.SourceTag</tag-class>
+    <body-content>JSP</body-content>
+    <description><![CDATA[Allows to wrap content as a source]]></description>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>  
   
   <tag>
     <name>tr</name>
