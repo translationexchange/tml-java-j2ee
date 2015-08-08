@@ -20,7 +20,7 @@ public class SessionUtils {
   	}
   	
 	public static String getSessionCookie(String key, HttpServletRequest request) throws UnsupportedEncodingException {
-		if (request == null) 
+		if (request == null || request.getCookies() == null) 
 			return null;
 					
 	    for (Cookie c : request.getCookies()) {

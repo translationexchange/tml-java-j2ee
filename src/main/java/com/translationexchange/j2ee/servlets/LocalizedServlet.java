@@ -33,7 +33,11 @@ package com.translationexchange.j2ee.servlets;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -43,6 +47,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.translationexchange.core.Session;
 import com.translationexchange.core.Tml;
+import com.translationexchange.core.Utils;
 import com.translationexchange.j2ee.utils.SecurityUtils;
 import com.translationexchange.j2ee.utils.SessionUtils;
 
@@ -128,30 +133,46 @@ public abstract class LocalizedServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    protected Map<String, Object> prepareSessionParams(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @SuppressWarnings("unchecked")
+	protected Map<String, Object> prepareSessionParams(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	Map<String, Object> params = SecurityUtils.decode(SessionUtils.getSessionCookie(SessionUtils.getCookieName(), req));
     	if (params != null) Tml.getLogger().debug(params);
     	
+    	// Locale can be forced by the user
     	String locale = getCurrentLocale();
 	    if (locale == null) {
+	    	// Or passed as a parameter
 	    	locale = req.getParameter("locale");
 	    	if (locale != null) {
 	    		params.put("locale", locale);
 	    		SessionUtils.setSessionCookie(SessionUtils.getCookieName(), SecurityUtils.encode(params), resp);
+			    Tml.getLogger().debug("Param Locale: " + locale);
 	    	} else if (params.get("locale") != null) {
+	    		// Or loaded from the cookie 
 	    		locale = (String) params.get("locale");
+			    Tml.getLogger().debug("Cookie Locale: " + locale);
 	    	} else {
-	    		locale = req.getLocale().getLanguage();
+	    		// Or taken from the Accepted Locale header 
+	    		List<String> locales = new ArrayList<String>();
+	    		Enumeration<Locale> e = req.getLocales();
+	    		while (e.hasMoreElements()) {
+	    			locales.add(e.nextElement().getLanguage());
+	    		}
+	    		locale = Utils.join(locales, ",");
+	    		Tml.getLogger().debug("Header Locale: " + locale);
 	    	}
+	    } else {
+		    Tml.getLogger().debug("User Locale: " + locale);
 	    }
 	    params.put("locale", locale);
-
-	    Tml.getLogger().debug("Selected locale: " + locale);
 	    
     	String source = getCurrentSource();
 	    if (source == null) {
 	    	URL url = new URL(req.getRequestURL().toString());
 	    	source = url.getPath();
+		    Tml.getLogger().debug("Url Source: " + source);
+	    } else {
+		    Tml.getLogger().debug("User Source: " + source);
 	    }
 	    params.put("source", source);
 	    	
