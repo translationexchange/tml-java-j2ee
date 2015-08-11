@@ -31,64 +31,28 @@
 
 package com.translationexchange.j2ee.tags;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 
 import com.translationexchange.core.Session;
-import com.translationexchange.core.Tml;
-import com.translationexchange.core.Utils;
 
-public class ImageTag extends TrTag {
+public class LanguageAttributesTag extends TagSupport {
 
 	private static final long serialVersionUID = 1L;
-	
-	public static List<String> getImageAttributes() {
-		return Utils.buildStringList("src", "title", "label", "style", "class", "onclick");
-	}
-	
-	public static String getImageHtml(Session session, Map<String, Object> options) {
-		StringBuffer html = new StringBuffer();
-		
-		html.append("<img ");
-        
-		// TODO: add support for locale based images
-		// logo_ru.png
-		// logo_es.png
-		// logo_rtl.png
-		
-		for (String attr : getImageAttributes()) {
-			if (options.get(attr) == null)
-				continue;
-	        html.append(attr +"='" + options.get(attr).toString().replace("'", "\"") + "' ");
-		}
 
-		html.append("/>");
-
-        return html.toString();
-	}
-	
-	public List<String> getExcludedAttributes() {
-		return getImageAttributes();
-	}
-	
-	public int doEndTag() throws JspException {
+	public int doStartTag() throws JspException {
         try {
-        	 Session session = getTmlSession();
-     	    if (session == null)
-     	    	return EVAL_PAGE;
+            Session session = getTmlSession();
+    	    if (session == null)
+    	    	return EVAL_PAGE;
 
-     	    translateAttributes(session, Utils.buildStringList("title", "label"));
-            out(getImageHtml(session, getDynamicAttributes()));
-             
+    		StringBuffer html = new StringBuffer();
+    		html.append("lang=\"" + session.getCurrentLanguage().getLocale() + "\" ");
+    		html.append("dir=\"" + session.getCurrentLanguage().getDirection() + "\" ");
+    		
+            out(html.toString());
         } catch(Exception e) {   
-        	Tml.getLogger().logException(e);
             throw new JspException(e.getMessage());
-        } finally {
-        	reset();
         }
-        return EVAL_PAGE;		
-	}
+        return EVAL_PAGE;
+    }
 }

@@ -51,13 +51,12 @@ import java.util.regex.Pattern;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.DynamicAttributes;
 
 import com.translationexchange.core.Session;
 import com.translationexchange.core.Tml;
 import com.translationexchange.core.Utils;
 
-public class TrTag extends BodyTagSupport implements DynamicAttributes {
+public class TrTag extends BodyTagSupport {
 	private static final long serialVersionUID = 1L;
 
 	private String label;
@@ -71,14 +70,12 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
 	private Map<String, Object> tokensMap;
 	
 	private Map<String, Object> optionsMap;
-	
-	private Map<String,Object> dynamicAttributes = new HashMap<String,Object>();  
-	
+		
 	public String getLabel() {
 		if (label != null) 
 			return label;
 		if (getBodyContent() != null)
-			return getBodyContent().getString();
+			return getBodyContent().getString().trim();
 		return null;
 	}
 
@@ -109,14 +106,11 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
 	public void setOptions(String options) {
 		this.options = options;
 	}
-
-	public void setDynamicAttribute(String uri,
-            String localName,
-            Object value)
-     throws JspException {
-		dynamicAttributes.put(localName, value);		
-	}
 	
+	public List<String> getExcludedAttributes() {
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	private Map<String, Object> parseAttributeData(String data) {
 		data = data.replaceAll(Pattern.quote("'"), "\"");
@@ -137,6 +131,10 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
     	tokens.put(elements.get(lastIndex), value);
 	}
 	
+	protected boolean isExcludedAttribute(String key) {
+        return (getExcludedAttributes() != null && getExcludedAttributes().contains(key));
+	}
+	
 	private void parseAttributes() {
 		if (getTokens() != null) {
 			tokensMap = parseAttributeData(getTokens());
@@ -150,12 +148,16 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
 			optionsMap = new HashMap<String, Object>(); 
 		}
 
-	    Iterator<Entry<String, Object>> entries = dynamicAttributes.entrySet().iterator();
+	    Iterator<Entry<String, Object>> entries = getDynamicAttributes().entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<String, Object> entry = (Map.Entry<String, Object>) entries.next();
             String key = entry.getKey();
-            String value = (String) entry.getValue();
+            String value = entry.getValue().toString();
             Object object = value;
+            
+            if (isExcludedAttribute(key))
+            	continue;
+            
             if (value.startsWith("{")) 
             	object = parseAttributeData(value);
             	
@@ -186,7 +188,7 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
 	}	
 	
 	
-	private void reset() {
+	protected void reset() {
 		label = null;
 		description = null;
 		tokens = null;
@@ -195,22 +197,42 @@ public class TrTag extends BodyTagSupport implements DynamicAttributes {
 	    optionsMap = null;
 	}
 
+	protected String translate(Session tmlSession, String label) {
+		Map<String, Object> options = getOptionsMap();
+    	options.put("session", tmlSession);
+    	Map<String, Object> tokens = getTokensMap();
+    	String description = getDescription();
+		return tmlSession.translate(label, description, tokens, options);
+	}
+	
+	protected void translateAttributes(Session session, List<String> attributes) throws JspException {
+		for (String attr : attributes) {
+			if (getDynamicAttributes().get(attr) == null) 
+				continue;
+			
+			String value = getDynamicAttributes().get(attr).toString();
+			if (value != null) {
+				setDynamicAttribute(null, attr, translate(session, value));
+			}
+		}
+	}
+	
 	public int doStartTag() throws JspException {
 		return EVAL_BODY_BUFFERED;
     }
-
+	
 	public int doEndTag() throws JspException {
         try {
             JspWriter out = pageContext.getOut();
 
     	    Session tmlSession = getTmlSession();
+    	    
     	    if (tmlSession != null) {
-    	    	Map<String, Object> options = getOptionsMap();
-    	    	options.put("session", tmlSession);
-    	    	out.write(tmlSession.translate(getLabel(), getDescription(), getTokensMap(), options));
+    	    	out.write(translate(tmlSession, getLabel()));
     	    } else {
             	out.write(getLabel());
     	    }
+    	    
         } catch(Exception e) {   
         	Tml.getLogger().logException(e);
             throw new JspException(e.getMessage());

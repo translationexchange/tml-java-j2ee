@@ -74,7 +74,7 @@ public class TagSupport extends javax.servlet.jsp.tagext.TagSupport implements D
 	
 	public void setDynamicAttribute(String uri, String localName, Object value)
 			throws JspException {
-		dynamicAttributes.put(localName, localName);		
+		dynamicAttributes.put(localName, value);		
 	}
 	
 	public Object getDynamicAttribute(String name) {
@@ -133,4 +133,5 @@ public class TagSupport extends javax.servlet.jsp.tagext.TagSupport implements D
 		String locale = getStringAttribute(getDynamicAttributes(), "locale", session.getCurrentLanguage().getLocale());
 		return session.getApplication().getLanguage(locale);
 	}
+	
 }

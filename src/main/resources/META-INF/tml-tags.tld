@@ -34,7 +34,14 @@
     <name>language_dir_attribute</name>
     <tag-class>com.translationexchange.j2ee.tags.LanguageDirAttributeTag</tag-class>
     <body-content>empty</body-content>
-    <description><![CDATA[Allows to insert language direction attribute]]></description>
+    <description><![CDATA[Insert language direction attribute]]></description>
+  </tag>
+
+  <tag>
+    <name>language_attributes</name>
+    <tag-class>com.translationexchange.j2ee.tags.LanguageAttributesTag</tag-class>
+    <body-content>empty</body-content>
+    <description><![CDATA[Inserts language name and direction attributes]]></description>
   </tag>
     
   <tag>
@@ -182,6 +189,14 @@
         <required>false</required>
         <rtexprvalue>true</rtexprvalue>
       </attribute>
-  </tag>  
+  </tag> 
+  
+  <!-- <tag>
+    <name>trh</name>
+    <tag-class>com.translationexchange.j2ee.tags.TrhTag</tag-class>
+    <body-content>JSP</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+    <description></description>
+  </tag> -->   
   
 </taglib>

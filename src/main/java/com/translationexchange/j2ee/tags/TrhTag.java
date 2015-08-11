@@ -29,66 +29,13 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 package com.translationexchange.j2ee.tags;
 
-import java.util.List;
-import java.util.Map;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
+public class TrhTag extends TrTag {
 
-import com.translationexchange.core.Session;
-import com.translationexchange.core.Tml;
-import com.translationexchange.core.Utils;
+	private static final long serialVersionUID = 3767931504996116594L;
 
-public class ImageTag extends TrTag {
 
-	private static final long serialVersionUID = 1L;
-	
-	public static List<String> getImageAttributes() {
-		return Utils.buildStringList("src", "title", "label", "style", "class", "onclick");
-	}
-	
-	public static String getImageHtml(Session session, Map<String, Object> options) {
-		StringBuffer html = new StringBuffer();
-		
-		html.append("<img ");
-        
-		// TODO: add support for locale based images
-		// logo_ru.png
-		// logo_es.png
-		// logo_rtl.png
-		
-		for (String attr : getImageAttributes()) {
-			if (options.get(attr) == null)
-				continue;
-	        html.append(attr +"='" + options.get(attr).toString().replace("'", "\"") + "' ");
-		}
-
-		html.append("/>");
-
-        return html.toString();
-	}
-	
-	public List<String> getExcludedAttributes() {
-		return getImageAttributes();
-	}
-	
-	public int doEndTag() throws JspException {
-        try {
-        	 Session session = getTmlSession();
-     	    if (session == null)
-     	    	return EVAL_PAGE;
-
-     	    translateAttributes(session, Utils.buildStringList("title", "label"));
-            out(getImageHtml(session, getDynamicAttributes()));
-             
-        } catch(Exception e) {   
-        	Tml.getLogger().logException(e);
-            throw new JspException(e.getMessage());
-        } finally {
-        	reset();
-        }
-        return EVAL_PAGE;		
-	}
 }

@@ -32,6 +32,7 @@ public class SessionUtils {
 
 	public static void setSessionCookie(String key, String value, HttpServletResponse response) throws UnsupportedEncodingException {
 		 Cookie cookie = new Cookie(key, URLEncoder.encode(value, "UTF-8"));
+		 cookie.setPath("/");
 	     response.addCookie(cookie);
     }
 }
