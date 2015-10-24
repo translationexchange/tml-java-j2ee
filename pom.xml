@@ -3,7 +3,7 @@
 
   <groupId>com.translationexchange</groupId>
   <artifactId>tml-j2ee</artifactId>
-  <version>0.2.1-SNAPSHOT</version>
+  <version>0.2.1</version>
   <packaging>jar</packaging>
 
   <name>tml-j2ee</name>
@@ -46,7 +46,7 @@
 		<connection>scm:git:git://github.com/translationexchange/tml-java-j2ee.git</connection>
 		<developerConnection>scm:git:git://github.com/translationexchange/tml-java-j2ee.git</developerConnection>
 		<url>https://github.com/translationexchange/tml-java-j2ee</url>
-    <tag>0.1.1</tag>
+    <tag>tml-j2ee-0.2.1</tag>
 	</scm>
 
   <properties>
