@@ -43,7 +43,7 @@
   </distributionManagement>
 
 	<scm>
-		<connection>scm:git:git://github.com/translationexchange/tml-java-j2ee.git</connection>
+		<connection>https://github.com/translationexchange/tml-java-j2ee.git</connection>
 		<developerConnection>https://github.com/translationexchange/tml-java-j2ee.git</developerConnection>
 		<url>https://github.com/translationexchange/tml-java-j2ee</url>
     <tag>tml-j2ee-0.2.1</tag>
