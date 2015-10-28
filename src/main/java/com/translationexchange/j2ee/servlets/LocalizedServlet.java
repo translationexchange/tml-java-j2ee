@@ -60,7 +60,7 @@ public abstract class LocalizedServlet extends HttpServlet {
 	private static final int DO_PUT 	= 3;
 	private static final int DO_DELETE 	= 4;
 
-    protected Session getTml(HttpServletRequest req) {
+    protected Session getTmlSession(HttpServletRequest req) {
 		return (Session) req.getAttribute(TML_SESSION_KEY);
 	}
   	
@@ -83,7 +83,7 @@ public abstract class LocalizedServlet extends HttpServlet {
     protected void doLocalizedGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
         String protocol = req.getProtocol();
-        String msg = getTml(req).translate("HTTP method GET is not supported by this URL"); 
+        String msg = getTmlSession(req).translate("HTTP method GET is not supported by this URL"); 
         if (protocol.endsWith("1.1")) {
             resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, msg);
         } else {
@@ -94,7 +94,7 @@ public abstract class LocalizedServlet extends HttpServlet {
     protected void doLocalizedPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
         String protocol = req.getProtocol();
-        String msg = getTml(req).translate("HTTP method POST is not supported by this URL"); 
+        String msg = getTmlSession(req).translate("HTTP method POST is not supported by this URL"); 
         if (protocol.endsWith("1.1")) {
             resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, msg);
         } else {
@@ -105,7 +105,7 @@ public abstract class LocalizedServlet extends HttpServlet {
     protected void doLocalizedDelete(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
         String protocol = req.getProtocol();
-        String msg = getTml(req).translate("HTTP method DELETE is not supported by this URL"); 
+        String msg = getTmlSession(req).translate("HTTP method DELETE is not supported by this URL"); 
         if (protocol.endsWith("1.1")) {
             resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, msg);
         } else {
@@ -116,7 +116,7 @@ public abstract class LocalizedServlet extends HttpServlet {
     protected void doLocalizedPut(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
         String protocol = req.getProtocol();
-        String msg = getTml(req).translate("HTTP method PUT is not supported by this URL"); 
+        String msg = getTmlSession(req).translate("HTTP method PUT is not supported by this URL"); 
         if (protocol.endsWith("1.1")) {
             resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, msg);
         } else {
