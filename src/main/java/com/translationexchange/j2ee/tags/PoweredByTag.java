@@ -37,7 +37,7 @@ import javax.servlet.jsp.JspWriter;
 public class PoweredByTag extends TagSupport {
 
 	private static final long serialVersionUID = 1L;
-	private static final String SITE = "http://translationexchange.com";
+	private static final String SITE = "https://translationexchange.com";
 
 	public int doStartTag() throws JspException {
         try {
