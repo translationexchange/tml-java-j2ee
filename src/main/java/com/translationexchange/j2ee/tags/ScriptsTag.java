@@ -37,7 +37,10 @@
  */
 package com.translationexchange.j2ee.tags;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
@@ -45,6 +48,8 @@ import javax.servlet.jsp.JspException;
 import com.translationexchange.core.Application;
 import com.translationexchange.core.Language;
 import com.translationexchange.core.Session;
+import com.translationexchange.core.Tml;
+import com.translationexchange.core.Utils;
 
 public class ScriptsTag extends TagSupport {
 	private static final long serialVersionUID = 1L;
@@ -60,38 +65,68 @@ public class ScriptsTag extends TagSupport {
 		Application application = session.getApplication();
 		Language language = session.getCurrentLanguage();
 		String source = session.getCurrentSource();
-
-		out("<script>");
-		out("(function() {");
-		out("	if (window.tml_already_initialized) return;");
-		out("	window.tml_already_initialized = true;");
-		out("	var script = window.document.createElement('script');");
-		out("   script.setAttribute('id', 'tml-tools');");
-		out("   script.setAttribute('type', 'application/javascript');");
-		out("   script.setAttribute('src', '" + application.getTools("javascript") + "');");
-		out("   script.setAttribute('charset', 'UTF-8');");
-		out("   script.onload = function() {");
-		out("     Tml.Utils.insertCSS(window.document, '" + application.getTools("stylesheet") + "', false);");
-		out("     Tml.app_key = '" + application.getKey() + "';");
-		out("     Tml.host = '" + application.getTools("host") + "';");
-		out("     Tml.locale = '" + language.getLocale() + "';");
-		out("     Tml.current_source = '" + source + "';");
 		
-		if (application.isFeatureEnabled("shortcuts")) {
-	        Iterator<Map.Entry<String, String>> entries = application.getShortcuts().entrySet().iterator();
-	        while (entries.hasNext()) { 
-                Map.Entry<String, String> entry = (Map.Entry<String, String>) entries.next();
-        		out("     shortcut.add('" + entry.getKey() + "', function() {");
-        		out("       " + entry.getValue());
-        		out("     });");
-	        }
-		}
+//		 if opts[:js]
+//			        js_opts = opts[:js].is_a?(Hash) ? opts[:js] : {}
+//			        js_host = js_opts[:host] || 'https://tools.translationexchange.com/tml/stable/tml.min.js'
+//			        html = []
+//			      out("<script src='#{js_host}'></script>"
+//			      out('<script>'
+//			      out('tml.init({'
+//			      out("    key:    '#{tml_application.key}', "
+//			      out("    token:  '#{tml_application.token}', "
+//			      out("    debug: #{js_opts[:debug] || false},"
+//			        if js_opts[:onload]
+//			        out('    onLoad: function() {'
+//			        out("       #{js_opts[:onload]}"
+//			        out('    }'
+//			        end
+//			      out('});'
+//			      out('</script>'
+//			        return html.join.html_safe
+//			      end
 
-		out("     if (typeof(tml_on_ready) === 'function') tml_on_ready(); ");
-		out("   };");
-		out("   window.document.getElementsByTagName('head')[0].appendChild(script);");
+//		Tml.getConfig().get
+
+//	      agent_host = agent_config[:host] || 'https://tools.translationexchange.com/agent/stable/agent.min.js'
+//	      if agent_config[:cache]
+//	        t = Time.now
+//	        t = t - (t.to_i % agent_config[:cache].to_i).seconds
+//	        agent_host += "?ts=#{t.to_i}"
+//	      end
+		
+        List<Map <String, Object>> languages = new ArrayList<Map <String, Object>>();
+
+		Map<String, Object> config = Utils.buildMap(
+			"locale", 	language.getLocale(),
+			"source", 	source,
+			"css", 		application.getCss(),
+			"sdk", 		"tml-java v" + Tml.VERSION,
+			"languages", languages
+		);
+		
+        for (Language lang : application.getLanguages()) {
+            Map <String, Object> info = new HashMap <String, Object>();
+            info.put("locale", lang.getLocale());
+            info.put("english_name", lang.getEnglishName());
+            info.put("native_name", lang.getNativeName());
+            info.put("flag_url", lang.getFlagUrl());
+            languages.add(info);
+        }
+
+        out("<script>");
+		out("(function() {");
+		out("var script = window.document.createElement('script');");
+		out("script.setAttribute('id', 'tml-agent');");
+		out("script.setAttribute('type', 'application/javascript');");
+		out("script.setAttribute('src', '" + Tml.getConfig().getAgent().get("host") + "');");
+		out("script.setAttribute('charset', 'UTF-8');");
+		out("script.onload = function() {");
+		out("   Trex.init('" + application.getKey() + "', " + Utils.buildJSON(config) + ");");
+		out("};");
+		out("window.document.getElementsByTagName('head')[0].appendChild(script);");
 		out("})();");
-		out("</script>");		
+		out("</script>");
 	}
 	
 	public int doStartTag() throws JspException {
@@ -101,7 +136,6 @@ public class ScriptsTag extends TagSupport {
     	    if (session == null)
     	    	return EVAL_PAGE;
     	    
-    	    writeCSS(session);
     	    writeJS(session);
         } catch(Exception e) {   
             throw new JspException(e.getMessage());
