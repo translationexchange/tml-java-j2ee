@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 Translation Exchange, Inc. All rights reserved.
+ * Copyright (c) 2016 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -46,10 +46,10 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 
 import com.translationexchange.core.Application;
-import com.translationexchange.core.Language;
 import com.translationexchange.core.Session;
 import com.translationexchange.core.Tml;
 import com.translationexchange.core.Utils;
+import com.translationexchange.core.languages.Language;
 
 public class ScriptsTag extends TagSupport {
 	private static final long serialVersionUID = 1L;

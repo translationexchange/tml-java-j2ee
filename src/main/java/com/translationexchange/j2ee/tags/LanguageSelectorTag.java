@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 Translation Exchange, Inc. All rights reserved.
+ * Copyright (c) 2016 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -34,8 +34,8 @@ package com.translationexchange.j2ee.tags;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.DynamicAttributes;
 
-import com.translationexchange.core.Language;
 import com.translationexchange.core.Session;
+import com.translationexchange.core.languages.Language;
 
 public class LanguageSelectorTag extends TagSupport implements DynamicAttributes {
 

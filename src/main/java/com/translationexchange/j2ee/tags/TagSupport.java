@@ -41,8 +41,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.DynamicAttributes;
 
-import com.translationexchange.core.Language;
 import com.translationexchange.core.Session;
+import com.translationexchange.core.languages.Language;
 import com.translationexchange.j2ee.servlets.LocalizedServlet;
 
 public class TagSupport extends javax.servlet.jsp.tagext.TagSupport implements DynamicAttributes {
