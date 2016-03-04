@@ -39,7 +39,6 @@ package com.translationexchange.j2ee.tags;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,14 +52,7 @@ import com.translationexchange.core.languages.Language;
 
 public class ScriptsTag extends TagSupport {
 	private static final long serialVersionUID = 1L;
-	
-	private void writeCSS(Session session) throws Exception {
-		Application application = session.getApplication();
-		out("<style type='text/css'>");
-		out(application.getCss());
-		out("</style>");
-	}
-	
+		
 	private void writeJS(Session session) throws Exception {
 		Application application = session.getApplication();
 		Language language = session.getCurrentLanguage();

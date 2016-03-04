@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 
 import com.translationexchange.core.Session;
 import com.translationexchange.core.Tml;

@@ -35,7 +35,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.DynamicAttributes;
 
 import com.translationexchange.core.Session;
-import com.translationexchange.core.languages.Language;
 
 public class LanguageSelectorTag extends TagSupport implements DynamicAttributes {
 
