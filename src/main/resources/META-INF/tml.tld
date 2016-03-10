@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
-  <display-name>"Tml Tags"</display-name>
+  <display-name>Tml Tags</display-name>
   <tlib-version>2.2.3</tlib-version>
   <short-name>tml</short-name>
-  <uri>/tml-tags</uri>
+  <uri>http://www.translationexchange.com/tml</uri>
 
   <tag>
     <name>image</name>
