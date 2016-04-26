@@ -162,7 +162,29 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
   </tag>
-
+	
+  <tag>
+    <name>trh</name>
+    <tag-class>com.translationexchange.j2ee.tags.TrhTag</tag-class>
+    <dynamic-attributes>true</dynamic-attributes>
+    <description><![CDATA[Html to Tml translation tag]]></description>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>html</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>tokens</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>options</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
   <tag>
     <name>trl</name>
     <tag-class>com.translationexchange.j2ee.tags.TrlTag</tag-class>

@@ -32,10 +32,22 @@
 
 package com.translationexchange.j2ee.tags;
 
+import java.util.Map;
+
+import com.translationexchange.core.Session;
+import com.translationexchange.core.Tml;
+import com.translationexchange.core.Utils;
+
 
 public class TrhTag extends TrTag {
 
-	private static final long serialVersionUID = 3767931504996116594L;
+	private static final long serialVersionUID = 1L;
 
-
+	protected String translate(Session tmlSession, String label) {
+        Map<String, Object> options = getOptionsMap();
+        options.putAll(Tml.getConfig().getTranslatorOptions());
+        options.put("session", tmlSession);
+        Map<String, Object> tokens = getTokensMap();
+        return tmlSession.trh(label, tokens, options);
+    }
 }
