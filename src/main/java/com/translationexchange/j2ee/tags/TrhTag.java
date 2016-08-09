@@ -36,7 +36,6 @@ import java.util.Map;
 
 import com.translationexchange.core.Session;
 import com.translationexchange.core.Tml;
-import com.translationexchange.core.Utils;
 
 
 public class TrhTag extends TrTag {
