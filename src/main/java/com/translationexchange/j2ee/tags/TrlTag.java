@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2015 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,8 +27,9 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
-
 
 package com.translationexchange.j2ee.tags;
 
@@ -36,12 +37,12 @@ import java.util.Map;
 
 public class TrlTag extends TrTag {
 
-	private static final long serialVersionUID = 3767931504996116594L;
+  private static final long serialVersionUID = 3767931504996116594L;
 
-	protected Map<String, Object> getOptionsMap() {
-		Map<String, Object> options = super.getOptionsMap();
-		options.put("skip_decorations", true);
-		return options; 
-	}	
-	
+  protected Map<String, Object> getOptionsMap() {
+    Map<String, Object> options = super.getOptionsMap();
+    options.put("skip_decorations", true);
+    return options;
+  }
+
 }

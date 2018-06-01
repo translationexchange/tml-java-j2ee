@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2016 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,14 +27,10 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
  * @author Michael Berkovich
- * 
- * Usage:
- * 
- * <tml:scripts/> 
- * 
  */
+
 package com.translationexchange.j2ee.tags;
 
 import java.util.ArrayList;
@@ -51,13 +47,13 @@ import com.translationexchange.core.Utils;
 import com.translationexchange.core.languages.Language;
 
 public class ScriptsTag extends TagSupport {
-	private static final long serialVersionUID = 1L;
-		
-	private void writeJS(Session session) throws Exception {
-		Application application = session.getApplication();
-		Language language = session.getCurrentLanguage();
-		String source = session.getCurrentSource();
-		
+  private static final long serialVersionUID = 1L;
+
+  private void writeJS(Session session) throws Exception {
+    Application application = session.getApplication();
+    Language language = session.getCurrentLanguage();
+    String source = session.getCurrentSource();
+
 //		 if opts[:js]
 //			        js_opts = opts[:js].is_a?(Hash) ? opts[:js] : {}
 //			        js_host = js_opts[:host] || 'https://tools.translationexchange.com/tml/stable/tml.min.js'
@@ -86,56 +82,56 @@ public class ScriptsTag extends TagSupport {
 //	        t = t - (t.to_i % agent_config[:cache].to_i).seconds
 //	        agent_host += "?ts=#{t.to_i}"
 //	      end
-		
-        List<Map <String, Object>> languages = new ArrayList<Map <String, Object>>();
 
-		Map<String, Object> config = Utils.buildMap(
-			"locale", 	language.getLocale(),
-			"source", 	source,
-			"css", 		application.getCss(),
-			"sdk", 		"tml-java v" + Tml.VERSION,
-			"languages", languages
-		);
-		
-        for (Language lang : application.getLanguages()) {
-            Map <String, Object> info = new HashMap <String, Object>();
-            info.put("locale", lang.getLocale());
-            info.put("english_name", lang.getEnglishName());
-            info.put("native_name", lang.getNativeName());
-            info.put("flag_url", lang.getFlagUrl());
-            languages.add(info);
-        }
+    List<Map<String, Object>> languages = new ArrayList<Map<String, Object>>();
 
-        out("<script>");
-		out("(function() {");
-		out("var script = window.document.createElement('script');");
-		out("script.setAttribute('id', 'tml-agent');");
-		out("script.setAttribute('type', 'application/javascript');");
-		out("script.setAttribute('src', '" + Tml.getConfig().getAgent().get("host") + "');");
-		out("script.setAttribute('charset', 'UTF-8');");
-		out("script.onload = function() {");
-		out("   Trex.init('" + application.getKey() + "', " + Utils.buildJSON(config) + ");");
-		out("};");
-		out("window.document.getElementsByTagName('head')[0].appendChild(script);");
-		out("})();");
-		out("</script>");
-	}
-	
-	public int doStartTag() throws JspException {
-        try {
-    	    Session session = getTmlSession();
-    	    
-    	    if (session == null)
-    	    	return EVAL_PAGE;
-    	    
-    	    writeJS(session);
-        } catch(Exception e) {   
-            throw new JspException(e.getMessage());
-        } finally {
-        }
-        return EVAL_PAGE;
+    Map<String, Object> config = Utils.map(
+        "locale", language.getLocale(),
+        "source", source,
+        "css", application.getCss(),
+        "sdk", "tml-java v" + Tml.VERSION,
+        "languages", languages
+    );
+
+    for (Language lang : application.getLanguages()) {
+      Map<String, Object> info = new HashMap<String, Object>();
+      info.put("locale", lang.getLocale());
+      info.put("english_name", lang.getEnglishName());
+      info.put("native_name", lang.getNativeName());
+      info.put("flag_url", lang.getFlagUrl());
+      languages.add(info);
     }
-	
+
+    out("<script>");
+    out("(function() {");
+    out("var script = window.document.createElement('script');");
+    out("script.setAttribute('id', 'tml-agent');");
+    out("script.setAttribute('type', 'application/javascript');");
+    out("script.setAttribute('src', '" + Tml.getConfig().getAgent().get("host") + "');");
+    out("script.setAttribute('charset', 'UTF-8');");
+    out("script.onload = function() {");
+    out("   Trex.init('" + application.getKey() + "', " + Utils.buildJSON(config) + ");");
+    out("};");
+    out("window.document.getElementsByTagName('head')[0].appendChild(script);");
+    out("})();");
+    out("</script>");
+  }
+
+  public int doStartTag() throws JspException {
+    try {
+      Session session = getTmlSession();
+
+      if (session == null)
+        return EVAL_PAGE;
+
+      writeJS(session);
+    } catch (Exception e) {
+      throw new JspException(e.getMessage());
+    } finally {
+    }
+    return EVAL_PAGE;
+  }
+
 }
 
 

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2016 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,6 +27,8 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
 
 package com.translationexchange.j2ee.tags;
@@ -36,22 +38,22 @@ import javax.servlet.jsp.JspWriter;
 
 public class PoweredByTag extends TagSupport {
 
-	private static final long serialVersionUID = 1L;
-	private static final String SITE = "https://translationexchange.com";
+  private static final long serialVersionUID = 1L;
+  private static final String SITE = "https://translationexchange.com";
 
-	public int doStartTag() throws JspException {
-        try {
-            JspWriter out = pageContext.getOut();
-            out.write("<div>");
-    	    out.write("<a href='" + SITE + "' style='font-size:14px;color:#ccc'>");
-    	    out.write("Powered by Translation Exchange");
-    	    out.write("<br>");
-    	    out.write("<img src='" + SITE + "/assets/tr8n/tr8n_logo.png' style='padding:10px;width:80px;'>");
-    	    out.write("</a>");
-    	    out.write("</div>");
-        } catch(Exception e) {   
-            throw new JspException(e.getMessage());
-        }
-        return EVAL_PAGE;
+  public int doStartTag() throws JspException {
+    try {
+      JspWriter out = pageContext.getOut();
+      out.write("<div>");
+      out.write("<a href='" + SITE + "' style='font-size:14px;color:#ccc'>");
+      out.write("Powered by Translation Exchange");
+      out.write("<br>");
+      out.write("<img src='" + SITE + "/assets/tr8n/tr8n_logo.png' style='padding:10px;width:80px;'>");
+      out.write("</a>");
+      out.write("</div>");
+    } catch (Exception e) {
+      throw new JspException(e.getMessage());
     }
+    return EVAL_PAGE;
+  }
 }

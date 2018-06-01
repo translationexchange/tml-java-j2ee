@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2016 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,6 +27,8 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
 
 package com.translationexchange.j2ee.tags;
@@ -41,36 +43,36 @@ import com.translationexchange.core.languages.Language;
 
 public class LanguageFlagTag extends TagSupport {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public static String getLanguageFlagHtml(Language language, Session session, Map<String, Object> options) {
-		if (!session.getApplication().isFeatureEnabled("language_flags")) {
-			return "";
-		}
-
-		StringBuffer html = new StringBuffer();
-
-		Map<String, Object> imageOptions = new HashMap<String, Object>();
-		imageOptions.put("src", language.getFlagUrl());
-		imageOptions.put("style", getStringAttribute(options, "style", "vertical-align:middle;"));
-		imageOptions.put("title", language.getNativeName());
-		
-		html.append(ImageTag.getImageHtml(session, imageOptions));
-
-		return html.toString();
-	}
-	
-	public int doStartTag() throws JspException {
-        try {
-            Session session = getTmlSession();
-    	    
-            if (session == null)
-    	    	return EVAL_PAGE;
-
-    	    out(getLanguageFlagHtml(getLanguageAttribute(session), session, getDynamicAttributes()));
-        } catch(Exception e) {   
-            throw new JspException(e.getMessage());
-        }
-        return EVAL_PAGE;
+  public static String getLanguageFlagHtml(Language language, Session session, Map<String, Object> options) {
+    if (!session.getApplication().isFeatureEnabled("language_flags")) {
+      return "";
     }
+
+    StringBuffer html = new StringBuffer();
+
+    Map<String, Object> imageOptions = new HashMap<String, Object>();
+    imageOptions.put("src", language.getFlagUrl());
+    imageOptions.put("style", getStringAttribute(options, "style", "vertical-align:middle;"));
+    imageOptions.put("title", language.getNativeName());
+
+    html.append(ImageTag.getImageHtml(session, imageOptions));
+
+    return html.toString();
+  }
+
+  public int doStartTag() throws JspException {
+    try {
+      Session session = getTmlSession();
+
+      if (session == null)
+        return EVAL_PAGE;
+
+      out(getLanguageFlagHtml(getLanguageAttribute(session), session, getDynamicAttributes()));
+    } catch (Exception e) {
+      throw new JspException(e.getMessage());
+    }
+    return EVAL_PAGE;
+  }
 }

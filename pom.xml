@@ -9,7 +9,7 @@
 	<name>tml-j2ee</name>
 	<description>TML for J2EE</description>
 	<url>https://github.com/translationexchage/tml-java-j2ee</url>
-	<inceptionYear>2014</inceptionYear>
+	<inceptionYear>2018</inceptionYear>
 
 	<organization>
 		<name>Translation Exchnage, Inc.</name>
@@ -60,13 +60,13 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.10</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.translationexchange</groupId>
 			<artifactId>tml</artifactId>
-			<version>0.2.9-SNAPSHOT</version>
+			<version>0.2.12-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -76,20 +76,20 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
+			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.0</version>
+			<version>2.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 	        <groupId>com.github.mjeanroy</groupId>
 	        <artifactId>junit-servers-jetty</artifactId>
-	        <version>0.4.2</version>
+	        <version>0.6.1</version>
 	        <scope>test</scope>
 	    </dependency>
 	</dependencies>

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2016 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,6 +27,8 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
 
 package com.translationexchange.j2ee.tags;
@@ -44,30 +46,30 @@ import com.translationexchange.j2ee.servlets.LocalizedServlet;
 
 public class BodyTagSupport extends javax.servlet.jsp.tagext.BodyTagSupport implements DynamicAttributes {
 
-	private static final long serialVersionUID = 9188530919679754744L;
+  private static final long serialVersionUID = 9188530919679754744L;
 
-	private Map<String,Object> dynamicAttributes = new HashMap<String,Object>();  
+  private Map<String, Object> dynamicAttributes = new HashMap<String, Object>();
 
-	protected Session getTmlSession() {
-        HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-	    return (Session) request.getAttribute(LocalizedServlet.TML_SESSION_KEY);
-	}
-	
-	public Map<String,Object> getDynamicAttributes() {
-		return dynamicAttributes;
-	}
-	
-	public void setDynamicAttribute(String uri, String localName, Object value)
-			throws JspException {
-		dynamicAttributes.put(localName, value);		
-	}
+  protected Session getTmlSession() {
+    HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+    return (Session) request.getAttribute(LocalizedServlet.TML_SESSION_KEY);
+  }
 
-	protected void out(JspWriter writer, String str) throws Exception {
-		writer.write(str + "\n");	
-	}
+  public Map<String, Object> getDynamicAttributes() {
+    return dynamicAttributes;
+  }
 
-	protected void out(String str) throws Exception {
-		out(pageContext.getOut(), str);
-	}
-	
+  public void setDynamicAttribute(String uri, String localName, Object value)
+      throws JspException {
+    dynamicAttributes.put(localName, value);
+  }
+
+  protected void out(JspWriter writer, String str) throws Exception {
+    writer.write(str + "\n");
+  }
+
+  protected void out(String str) throws Exception {
+    out(pageContext.getOut(), str);
+  }
+
 }

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2015 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,8 +27,9 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
-
 
 package com.translationexchange.j2ee.tags;
 
@@ -40,13 +41,13 @@ import com.translationexchange.core.Tml;
 
 public class TrhTag extends TrTag {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	protected String translate(Session tmlSession, String label) {
-        Map<String, Object> options = getOptionsMap();
-        options.putAll(Tml.getConfig().getTranslatorOptions());
-        options.put("session", tmlSession);
-        Map<String, Object> tokens = getTokensMap();
-        return tmlSession.trh(label, tokens, options);
-    }
+  protected String translate(Session tmlSession, String label) {
+    Map<String, Object> options = getOptionsMap();
+    options.putAll(Tml.getConfig().getTranslatorOptions());
+    options.put("session", tmlSession);
+    Map<String, Object> tokens = getTokensMap();
+    return tmlSession.trh(label, tokens, options);
+  }
 }

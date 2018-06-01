@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2016 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,6 +27,8 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
 
 package com.translationexchange.j2ee.tags;
@@ -43,34 +45,34 @@ import com.translationexchange.core.languages.Language;
 
 public class FeaturedLanguagesTag extends TagSupport {
 
-	private static final long serialVersionUID = 1L;
-	private static final int LIST_LIMIT = 8;
+  private static final long serialVersionUID = 1L;
+  private static final int LIST_LIMIT = 8;
 
-	public int doStartTag() throws JspException {
-        try {
-            JspWriter out = pageContext.getOut();
-            
-    	    Session tmlSession = getTmlSession();
-    	    if (tmlSession == null)
-    	    	return EVAL_PAGE;
-            
-    	    List<String> links = new ArrayList<String>();
-    	    List<Language> languages = tmlSession.getApplication().getFeaturedLanguages();
+  public int doStartTag() throws JspException {
+    try {
+      JspWriter out = pageContext.getOut();
 
-    	    if (languages != null && languages.size() > 0) {
-    	    	for (int i=0; i<Math.min(LIST_LIMIT, languages.size()) ; i++) {
-    	    		Language language = languages.get(i);
-	    	    	links.add("<a href='#' onClick='Tml.UI.LanguageSelector.change(\"" + language.getLocale() + "\")'>" + language.getNativeName() + "</a>");
-	    	    }
-
-    	    	out.write(Utils.join(links, "&nbsp; &middot; &nbsp;"));
-        	    if (languages.size() > LIST_LIMIT) {
-        	      out.write("&nbsp; &nbsp; <a href='#' onClick='Tml.UI.LanguageSelector.show()'>&raquo;</a>");
-        	    }
-    	    }
-        } catch(Exception e) {   
-            throw new JspException(e.getMessage());
-        }
+      Session tmlSession = getTmlSession();
+      if (tmlSession == null)
         return EVAL_PAGE;
+
+      List<String> links = new ArrayList<String>();
+      List<Language> languages = tmlSession.getApplication().getFeaturedLanguages();
+
+      if (languages != null && languages.size() > 0) {
+        for (int i = 0; i < Math.min(LIST_LIMIT, languages.size()); i++) {
+          Language language = languages.get(i);
+          links.add("<a href='#' onClick='Tml.UI.LanguageSelector.change(\"" + language.getLocale() + "\")'>" + language.getNativeName() + "</a>");
+        }
+
+        out.write(Utils.join(links, "&nbsp; &middot; &nbsp;"));
+        if (languages.size() > LIST_LIMIT) {
+          out.write("&nbsp; &nbsp; <a href='#' onClick='Tml.UI.LanguageSelector.show()'>&raquo;</a>");
+        }
+      }
+    } catch (Exception e) {
+      throw new JspException(e.getMessage());
     }
+    return EVAL_PAGE;
+  }
 }

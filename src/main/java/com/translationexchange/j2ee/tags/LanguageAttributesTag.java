@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2016 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,6 +27,8 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
 
 package com.translationexchange.j2ee.tags;
@@ -37,22 +39,22 @@ import com.translationexchange.core.Session;
 
 public class LanguageAttributesTag extends TagSupport {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public int doStartTag() throws JspException {
-        try {
-            Session session = getTmlSession();
-    	    if (session == null)
-    	    	return EVAL_PAGE;
-
-    		StringBuffer html = new StringBuffer();
-    		html.append("lang=\"" + session.getCurrentLanguage().getLocale() + "\" ");
-    		html.append("dir=\"" + session.getCurrentLanguage().getDirection() + "\" ");
-    		
-            out(html.toString());
-        } catch(Exception e) {   
-            throw new JspException(e.getMessage());
-        }
+  public int doStartTag() throws JspException {
+    try {
+      Session session = getTmlSession();
+      if (session == null)
         return EVAL_PAGE;
+
+      StringBuffer html = new StringBuffer();
+      html.append("lang=\"" + session.getCurrentLanguage().getLocale() + "\" ");
+      html.append("dir=\"" + session.getCurrentLanguage().getDirection() + "\" ");
+
+      out(html.toString());
+    } catch (Exception e) {
+      throw new JspException(e.getMessage());
     }
+    return EVAL_PAGE;
+  }
 }

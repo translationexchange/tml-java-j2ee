@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2016 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,6 +27,8 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
 
 package com.translationexchange.j2ee.tags;
@@ -40,33 +42,33 @@ import com.translationexchange.core.languages.Language;
 
 public class LanguageNameTag extends TagSupport {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public static String getLanguageNameHtml(Language language, Session session, Map<String, Object> options) {
-		StringBuffer html = new StringBuffer();
-		
-		boolean flag = getBooleanAttribute(options, "flag", true);
-		
-	    if (flag) {
-	      html.append(LanguageFlagTag.getLanguageFlagHtml(language, session, options));
-	      html.append(" ");
-	    }
-	    
-	    html.append(language.getNativeName());
-		
-		return html.toString();
-	}
-	
-	public int doStartTag() throws JspException {
-        try {
-            Session session = getTmlSession();
-    	    if (session == null)
-    	    	return EVAL_PAGE;
-    	    
-    	    out(getLanguageNameHtml(getLanguageAttribute(session), session, getDynamicAttributes()));
-        } catch(Exception e) {   
-            throw new JspException(e.getMessage());
-        }
-        return EVAL_PAGE;
+  public static String getLanguageNameHtml(Language language, Session session, Map<String, Object> options) {
+    StringBuffer html = new StringBuffer();
+
+    boolean flag = getBooleanAttribute(options, "flag", true);
+
+    if (flag) {
+      html.append(LanguageFlagTag.getLanguageFlagHtml(language, session, options));
+      html.append(" ");
     }
+
+    html.append(language.getNativeName());
+
+    return html.toString();
+  }
+
+  public int doStartTag() throws JspException {
+    try {
+      Session session = getTmlSession();
+      if (session == null)
+        return EVAL_PAGE;
+
+      out(getLanguageNameHtml(getLanguageAttribute(session), session, getDynamicAttributes()));
+    } catch (Exception e) {
+      throw new JspException(e.getMessage());
+    }
+    return EVAL_PAGE;
+  }
 }

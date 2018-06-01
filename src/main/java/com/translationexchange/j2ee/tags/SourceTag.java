@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2015 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,8 +27,9 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
-
 
 package com.translationexchange.j2ee.tags;
 
@@ -40,48 +41,48 @@ import com.translationexchange.core.Tml;
 import com.translationexchange.core.Utils;
 
 public class SourceTag extends BodyTagSupport {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private String name;
+  private String name;
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	private void reset() {
-		name = null;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public int doStartTag() throws JspException {
-        Session tmlSession = getTmlSession();
-	    if (tmlSession != null) {
-	    	tmlSession.beginBlockWithOptions(Utils.buildMap("source", getName()));
-	    }
-		return EVAL_BODY_BUFFERED;
+  private void reset() {
+    name = null;
+  }
+
+  public int doStartTag() throws JspException {
+    Session tmlSession = getTmlSession();
+    if (tmlSession != null) {
+      tmlSession.beginBlockWithOptions(Utils.map("source", getName()));
     }
+    return EVAL_BODY_BUFFERED;
+  }
 
-	public int doEndTag() throws JspException {
-        try {
-        	Session tmlSession = getTmlSession();
-        	if (tmlSession != null) {
-    	    	tmlSession.endBlock();
-    	    }
+  public int doEndTag() throws JspException {
+    try {
+      Session tmlSession = getTmlSession();
+      if (tmlSession != null) {
+        tmlSession.endBlock();
+      }
 
-    	    if (getBodyContent() != null) {
-    	    	JspWriter out = pageContext.getOut();
-    	    	out.write(getBodyContent().getString());
-    	    }
-        } catch(Exception e) {   
-        	Tml.getLogger().logException(e);
-            throw new JspException(e.getMessage());
-        } finally {
-        	reset();
-        }
-        return EVAL_PAGE;		
-	}
-	
+      if (getBodyContent() != null) {
+        JspWriter out = pageContext.getOut();
+        out.write(getBodyContent().getString());
+      }
+    } catch (Exception e) {
+      Tml.getLogger().logException(e);
+      throw new JspException(e.getMessage());
+    } finally {
+      reset();
+    }
+    return EVAL_PAGE;
+  }
+
 }

@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2015 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,6 +27,8 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
 
 package com.translationexchange.j2ee.tags;
@@ -47,91 +49,91 @@ import com.translationexchange.j2ee.servlets.LocalizedServlet;
 
 public class TagSupport extends javax.servlet.jsp.tagext.TagSupport implements DynamicAttributes {
 
-	private static final long serialVersionUID = -2954461560095601814L;
+  private static final long serialVersionUID = -2954461560095601814L;
 
-	private Map<String,Object> dynamicAttributes = new HashMap<String,Object>();  
+  private Map<String, Object> dynamicAttributes = new HashMap<String, Object>();
 
-	protected Session getTmlSession() {
-        HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-	    return (Session) request.getAttribute(LocalizedServlet.TML_SESSION_KEY);
-	}
-	
-	protected void out(JspWriter writer, String str) throws Exception {
-		writer.write(str + "\n");	
-	}
+  protected Session getTmlSession() {
+    HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+    return (Session) request.getAttribute(LocalizedServlet.TML_SESSION_KEY);
+  }
 
-	protected void out(String str) throws Exception {
-		out(pageContext.getOut(), str);
-	}
+  protected void out(JspWriter writer, String str) throws Exception {
+    writer.write(str + "\n");
+  }
 
-	protected List<String> getSupportedAttributeNames() {
-		return new ArrayList<String>();
-	}
+  protected void out(String str) throws Exception {
+    out(pageContext.getOut(), str);
+  }
 
-	public Map<String,Object> getDynamicAttributes() {
-		return dynamicAttributes;
-	}
-	
-	public void setDynamicAttribute(String uri, String localName, Object value)
-			throws JspException {
-		dynamicAttributes.put(localName, value);		
-	}
-	
-	public Object getDynamicAttribute(String name) {
-		return dynamicAttributes.get(name);
-	}
+  protected List<String> getSupportedAttributeNames() {
+    return new ArrayList<String>();
+  }
 
-	public String getStringAttribute(String name) {
-		return getStringAttribute(name, null);
-	}
+  public Map<String, Object> getDynamicAttributes() {
+    return dynamicAttributes;
+  }
 
-	public String getStringAttribute(String name, String defaultValue) {
-		return getStringAttribute(getDynamicAttributes(), name, defaultValue);
-	}
+  public void setDynamicAttribute(String uri, String localName, Object value)
+      throws JspException {
+    dynamicAttributes.put(localName, value);
+  }
 
-	public static String getStringAttribute(Map<String, Object> options, String name, String defaultValue) {
-		String value = (String) options.get(name);
-		if (value == null) return defaultValue;
-		return value;
-	}
-	
-	public int getIntAttribute(String name) {
-		return getIntAttribute(name, 0);
-	}
-	
-	public int getIntAttribute(String name, int defaultValue) {
-		return getIntAttribute(getDynamicAttributes(), name, defaultValue);
-	}
-	
-	public static int getIntAttribute(Map<String, Object> options, String name, int defaultValue) {
-		String value = (String) options.get(name);
-		if (value == null) return defaultValue;
-		return Integer.parseInt(value);
-	}
-	
-	public boolean getBooleanAttribute(String name) {
-		return getBooleanAttribute(getDynamicAttributes(), name, false);
-	}
+  public Object getDynamicAttribute(String name) {
+    return dynamicAttributes.get(name);
+  }
 
-	public boolean getBooleanAttribute(String name, boolean defaultValue) {
-		return getBooleanAttribute(getDynamicAttributes(), name, defaultValue);
-	}
-	
-	public static boolean getBooleanAttribute(Map<String, Object> options, String name, boolean defaultValue) {
-		String value = (String) options.get(name);
-		if (value == null) return defaultValue;
-		return Boolean.parseBoolean(value);
-	}
-	
-	public static Object getObjectAttribute(Map<String, Object> options, String name, Object defaultValue) {
-		Object value = options.get(name);
-		if (value == null) return defaultValue;
-		return value;
-	}	
-	
-	protected Language getLanguageAttribute(Session session) {
-		String locale = getStringAttribute(getDynamicAttributes(), "locale", session.getCurrentLanguage().getLocale());
-		return session.getApplication().getLanguage(locale);
-	}
-	
+  public String getStringAttribute(String name) {
+    return getStringAttribute(name, null);
+  }
+
+  public String getStringAttribute(String name, String defaultValue) {
+    return getStringAttribute(getDynamicAttributes(), name, defaultValue);
+  }
+
+  public static String getStringAttribute(Map<String, Object> options, String name, String defaultValue) {
+    String value = (String) options.get(name);
+    if (value == null) return defaultValue;
+    return value;
+  }
+
+  public int getIntAttribute(String name) {
+    return getIntAttribute(name, 0);
+  }
+
+  public int getIntAttribute(String name, int defaultValue) {
+    return getIntAttribute(getDynamicAttributes(), name, defaultValue);
+  }
+
+  public static int getIntAttribute(Map<String, Object> options, String name, int defaultValue) {
+    String value = (String) options.get(name);
+    if (value == null) return defaultValue;
+    return Integer.parseInt(value);
+  }
+
+  public boolean getBooleanAttribute(String name) {
+    return getBooleanAttribute(getDynamicAttributes(), name, false);
+  }
+
+  public boolean getBooleanAttribute(String name, boolean defaultValue) {
+    return getBooleanAttribute(getDynamicAttributes(), name, defaultValue);
+  }
+
+  public static boolean getBooleanAttribute(Map<String, Object> options, String name, boolean defaultValue) {
+    String value = (String) options.get(name);
+    if (value == null) return defaultValue;
+    return Boolean.parseBoolean(value);
+  }
+
+  public static Object getObjectAttribute(Map<String, Object> options, String name, Object defaultValue) {
+    Object value = options.get(name);
+    if (value == null) return defaultValue;
+    return value;
+  }
+
+  protected Language getLanguageAttribute(Session session) {
+    String locale = getStringAttribute(getDynamicAttributes(), "locale", session.getCurrentLanguage().getLocale());
+    return session.getApplication().getLanguage(locale);
+  }
+
 }

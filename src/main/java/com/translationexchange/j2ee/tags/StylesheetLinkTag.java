@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2015 Translation Exchange, Inc. All rights reserved.
+/*
+ * Copyright (c) 2018 Translation Exchange, Inc. All rights reserved.
  *
  *  _______                  _       _   _             ______          _
  * |__   __|                | |     | | (_)           |  ____|        | |
@@ -27,6 +27,8 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @author Michael Berkovich
  */
 
 package com.translationexchange.j2ee.tags;
@@ -37,48 +39,48 @@ import com.translationexchange.core.Session;
 
 public class StylesheetLinkTag extends TagSupport {
 
-	private static final long serialVersionUID = 1L;
-	private String rtl;
-	private String ltr;
+  private static final long serialVersionUID = 1L;
+  private String rtl;
+  private String ltr;
 
-	public String getRtl() {
-		return rtl;
-	}
+  public String getRtl() {
+    return rtl;
+  }
 
-	public void setRtl(String rtl) {
-		this.rtl = rtl;
-	}
+  public void setRtl(String rtl) {
+    this.rtl = rtl;
+  }
 
-	public String getLtr() {
-		return ltr;
-	}
+  public String getLtr() {
+    return ltr;
+  }
 
-	public void setLtr(String ltr) {
-		this.ltr = ltr;
-	}
+  public void setLtr(String ltr) {
+    this.ltr = ltr;
+  }
 
-	public int doStartTag() throws JspException {
-        try {
-            Session session = getTmlSession();
-    	    if (session == null)
-    	    	return EVAL_PAGE;
-
-    		StringBuffer html = new StringBuffer();
-    		
-    		html.append("<link rel=\"stylesheet\" type=\"text/css\"");    		
-    		
-    		if (session.getCurrentLanguage().isRightToLeft()) {
-    			html.append(" href=\"" + getRtl() + "\"");
-    		} else {
-    			html.append(" href=\"" + getLtr() + "\"");
-    		}
-    	    
-    		html.append(" />");
-    		
-            out(html.toString());
-        } catch(Exception e) {   
-            throw new JspException(e.getMessage());
-        }
+  public int doStartTag() throws JspException {
+    try {
+      Session session = getTmlSession();
+      if (session == null)
         return EVAL_PAGE;
+
+      StringBuffer html = new StringBuffer();
+
+      html.append("<link rel=\"stylesheet\" type=\"text/css\"");
+
+      if (session.getCurrentLanguage().isRightToLeft()) {
+        html.append(" href=\"" + getRtl() + "\"");
+      } else {
+        html.append(" href=\"" + getLtr() + "\"");
+      }
+
+      html.append(" />");
+
+      out(html.toString());
+    } catch (Exception e) {
+      throw new JspException(e.getMessage());
     }
+    return EVAL_PAGE;
+  }
 }
